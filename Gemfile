@@ -46,3 +46,9 @@ group :development do
   # gem "spring"
 end
 
+gem 'devise'
+gem 'devise-jwt'
+
+gem "image_processing", "~> 1.12"
+
+gem "jsonapi-serializer", "~> 2.2"
