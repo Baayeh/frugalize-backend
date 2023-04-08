@@ -4,7 +4,7 @@ class CategoriesController < ApplicationController
 
   # GET /categories
   def index
-    categories = Category.all
+    categories = current_user.categories
     all_categories = []
 
     categories.each do |category|
@@ -17,7 +17,11 @@ class CategoriesController < ApplicationController
 
   # GET /categories/1
   def show
-    render json: @category
+    expenses = @category.expenses.order(amount: :asc)
+    render json: {
+      category: CategorySerializer.new(@category).serializable_hash[:data][:attributes],
+      expenses: expenses
+    }
   end
 
   # POST /categories
@@ -32,7 +36,7 @@ class CategoriesController < ApplicationController
     else
       render json: {
         message: 'Category could not be created',
-        errors: @category.errors
+        errors: @category.errors.full_messages
       }, status: :unprocessable_entity
     end
   end
